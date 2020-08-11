@@ -1,5 +1,5 @@
 import React from 'react'
-import { useFormik } from 'formik'
+import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 
 function YoutubeForm() {
@@ -14,7 +14,6 @@ function YoutubeForm() {
         console.log(values);
     }
 
-    // uses Yup Object for validation
     const validationSchema = Yup.object({
         name: Yup.string().required('Required'),
         email: Yup.string()
@@ -23,39 +22,41 @@ function YoutubeForm() {
         channel: Yup.string().required('Required')
     })
 
-    const formik = useFormik({
-        initialValues,
-        onSubmit,
-        validationSchema
-    })
-
     return (
-        <div>
-            <form onSubmit={formik.handleSubmit}>
+        <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}>
+
+            <Form>
+
                 <div className='form-control'>
                     <label htmlFor='name'>Name</label>
-                    <input type='text' id='name' name='name'
-                        {...formik.getFieldProps('name')} />
-                    {formik.touched.name && formik.errors.name ? <div className='error'>{formik.errors.name}</div> : null}
+                    <Field type='text' id='name' name='name' />
+                    <ErrorMessage name='name' />
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='email'>E-mail</label>
-                    <input type='text' id='email' name='email'
-                        {...formik.getFieldProps('email')} />
-                    {formik.touched.email && formik.errors.email ? <div className='error'>{formik.errors.email}</div> : null}
+                    <Field type='text' id='email' name='email' />
+                    <ErrorMessage name='email' />
                 </div>
 
                 <div className='form-control'>
                     <label htmlFor='channel'>Channel</label>
-                    <input type='text' id='channel' name='channel'
-                        {...formik.getFieldProps('channel')} />
-                    {formik.touched.channel && formik.errors.channel ? <div className='error'>{formik.errors.channel}</div> : null}
+                    <Field type='text' id='channel' name='channel' />
+                    <ErrorMessage name='channel' />
                 </div>
+
                 <button type="submit">Submit</button>
 
-            </form>
-        </div>
+            </Form>
+        </Formik>
     )
 }
 export default YoutubeForm
+
+//To Simplied our code more
+// Replace useFormik with Formik Component
+// Replace html form tag with Form and remove onSubmit Form internally handle onSubmit
+// Replace input html tag with Field and get rid of getFieldProps which internally provided by Field
