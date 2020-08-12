@@ -1,5 +1,5 @@
 import React from 'react'
-import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
+import { Formik, Form, Field, ErrorMessage, FieldArray ,FastField } from 'formik'
 import * as Yup from 'yup'
 import TextError from './TextError'
 
@@ -65,9 +65,9 @@ function YoutubeForm() {
 
                 <div className='form-control'>
                     <label htmlFor='address'>Address</label>
-                    <Field name='address'>
+                    <FastField name='address'>
                         {props => {
-                            const { field, meta } = props
+                            const { field, meta } = props                            
                             return (
                                 <div>
                                     <input type='text' id='address' {...field} />
@@ -76,7 +76,7 @@ function YoutubeForm() {
                             )
                         }
                         }
-                    </Field>
+                    </FastField>
                 </div>
 
                 <div className='form-control'>
@@ -95,12 +95,13 @@ function YoutubeForm() {
                                 const { push, remove, form } = fieldArrayProps;
                                 const { values } = form
                                 const { phoneNumber } = values
+                                 
                                 return (
                                     <div>
                                         {
                                             phoneNumber.map((phoneNumber, index) => (
                                                 <div key={index}>
-                                                    <Field name={`phoneNumber[${index}]`} />
+                                                    <Field name={`phoneNumber[${index}]`} ></Field>
                                                     {index > 0 && (
                                                         <button type='button' onClick={() => remove(index)} >
                                                             {' '} - {' '}
