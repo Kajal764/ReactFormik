@@ -18,8 +18,9 @@ function YoutubeForm() {
         phoneNumber: ['']
     }
 
-    const onSubmit = values => {
+    const onSubmit = (values ,onSubmitProps) => {
         console.log(values);
+        onSubmitProps.resetForm();
     }
 
     const validationSchema = Yup.object({
