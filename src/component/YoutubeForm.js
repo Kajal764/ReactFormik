@@ -1,5 +1,5 @@
 import React from 'react'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
 import * as Yup from 'yup'
 import TextError from './TextError'
 
@@ -10,11 +10,12 @@ function YoutubeForm() {
         email: '',
         channel: '',
         comments: '',
-        addres: '',
+        address: '',
         social: {
             facebook: '',
             twitter: ''
-        }
+        },
+        phoneNumber: ['']
     }
 
     const onSubmit = values => {
@@ -76,15 +77,49 @@ function YoutubeForm() {
                         }
                         }
                     </Field>
+                </div>
 
-                    <div className='form-control'>
+                <div className='form-control'>
                     <label htmlFor='facebook'>Facebook</label>
                     <Field type='text' id='facebook' name='social.facebook' /> </div>
 
-                    <div className='form-control'>
+                <div className='form-control'>
                     <label htmlFor='twitter'>Twitter</label>
                     <Field type='text' id='twitter' name='social.twitter' /> </div>
 
+                <div className='form-control'>
+                    <label >List of phone numbers</label>
+                    <FieldArray name='phoneNumber' >
+                        {
+                            fieldArrayProps => {
+                                const { push, remove, form } = fieldArrayProps;
+                                const { values } = form
+                                const { phoneNumber } = values
+                                return (
+                                    <div>
+                                        {
+                                            phoneNumber.map((phoneNumber, index) => (
+                                                <div key={index}>
+                                                    <Field name={`phoneNumber[${index}]`} />
+                                                    {index > 0 && (
+                                                        <button type='button' onClick={() => remove(index)} >
+                                                            {' '} - {' '}
+                                                        </button>
+                                                    )}
+
+                                                    <button type='button' onClick={() => push('')}>
+                                                        {' '} + {' '}
+                                                    </button>
+
+                                                </div>
+                                            ))
+                                        }
+
+                                    </div>
+                                )
+                            }
+                        }
+                    </FieldArray>
                 </div>
 
                 <button type="submit">Submit</button>
